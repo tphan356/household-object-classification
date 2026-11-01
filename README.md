@@ -1,16 +1,16 @@
 # Household Object Classification
 
-> A deep learning project focused on classifying common household objects, with potential applications in intelligent home robotics.
+> A deep learning project focused on classifying common household objects using computer vision, with potential applications in intelligent home robotics.
 
 ---
 
 ## Project Overview
 
-This project explores image classification techniques to recognize common household objects. The long-term goal is to support intelligent robot vacuum systems that can identify objects and eventually build semantic maps of indoor environments.
+This project uses transfer learning to classify household furniture images into five categories. The project is inspired by intelligent robot vacuum systems that need to recognize objects in indoor environments.
 
-- **Objective:** Classify household objects into five categories using deep learning.
+- **Objective:** Develop an image classifier capable of recognizing five furniture categories.
 - **Domain:** Computer Vision, Deep Learning, Smart Home Robotics
-- **Key Techniques:** Image Classification, CNN, Transfer Learning, Data Augmentation
+- **Key Techniques:** Image Classification, Transfer Learning, ResNet34, Data Augmentation
 
 ---
 
@@ -18,9 +18,9 @@ This project explores image classification techniques to recognize common househ
 
 ```text
 ├── data/                 # Dataset information
-├── code/                 # Jupyter notebooks and Python scripts
+├── code/                 # Jupyter notebooks
 ├── reports/              # Results and visualizations
-├── requirements.txt      # Dependencies
+├── .gitignore
 └── README.md             # Project documentation
 ```
 
@@ -28,34 +28,62 @@ This project explores image classification techniques to recognize common househ
 
 ## Data
 
-- **Source:** [Furniture Image Dataset - Kaggle](https://www.kaggle.com/datasets/udaysankarmukherjee/furniture-image-dataset)
-- **Description:** The dataset contains images of five household object categories:
-  - Almirah (Wardrobe)
-  - Chair
-  - Fridge
-  - Table
-  - TV
+- **Source:** [Furniture Detector — Kaggle](https://www.kaggle.com/datasets/akkithetechie/furniture-detector)
+- **Categories:** Bed, Chair, Sofa, Swivel Chair, Table
+- **Original Dataset:** 4,447 images
+- **Cleaned Dataset:** 4,444 images after removing exact duplicates and conflicting labels
+- **Training Set:** 3,556 images (80%)
+- **Validation Set:** 888 images (20%)
+
+The dataset contains fewer table images than the other four categories.
 
 ---
 
 ## Analysis
 
-The project will follow these steps:
+I used the Fastai library to fine-tune a pretrained ResNet34 convolutional neural network.
 
-1. **Data Exploration:** Examine class distributions, image dimensions, and sample images.
-2. **Preprocessing:** Resize images and prepare training and validation datasets.
-3. **Model Training:** Fine-tune a pretrained ResNet34 model using Fastai.
-4. **Evaluation:** Evaluate performance using accuracy and a confusion matrix.
-5. **Model Improvement:** Experiment with data augmentation and training configurations.
+The analysis includes:
+
+1. **Data Exploration:** Examined the dataset structure, class distributions, and sample images.
+2. **Data Cleaning:** Identified and removed duplicate images and conflicting labels.
+3. **Preprocessing:** Resized images to 460 × 460 pixels and applied data augmentation to produce 224 × 224 images.
+4. **Model Training:** Fine-tuned a pretrained ResNet34 model using transfer learning.
+5. **Model Evaluation:** Evaluated validation accuracy, error rate, confusion matrix, and highest-loss predictions.
+6. **External Testing:** Tested the model on an image downloaded from outside the Kaggle dataset.
 
 ---
 
 ## Results
 
-Results will be added after model training and evaluation.
+The ResNet34 model achieved:
+
+| Metric | Result |
+|---|---|
+| Validation Accuracy | **97.30%** |
+| Validation Error Rate | **2.70%** |
+| Validation Images | 888 |
+| Correct Predictions | 864 |
+
+The confusion matrix showed that most misclassifications occurred between **chairs and swivel chairs**, which have similar visual features.
+
+The model also correctly classified an external chair image from Wikimedia Commons with a displayed confidence score of **100.00%**.
+
+These results demonstrate strong classification performance on the validation dataset, although additional external testing would help assess real-world generalization.
+
+---
+
+## Notebook
+
+The complete analysis, including code, visualizations, and model evaluation, is available here:
+
+- [Google Colab Notebook](https://colab.research.google.com/drive/1swLhB3S5_2C4kONI1eiwiWWJ7TvIYzir)
+- [GitHub Notebook](code/household_object_classification.ipynb)
+
+To reproduce the analysis, open the notebook in Google Colab, select a GPU runtime if available, and run the cells in order. The notebook downloads the dataset directly from Kaggle.
 
 ---
 
 ## Future Work
 
-Extend the image classification model to object detection and semantic mapping for intelligent robot vacuum applications.
+The long-term goal is to extend this project to **object detection and semantic mapping**, allowing intelligent home robots to recognize multiple household objects and identify their locations within indoor environments.
